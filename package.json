@@ -1,0 +1,15 @@
+{
+  "name": "create-rust-parcel",
+  "version": "0.0.2",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "bin": {
+    "create-rust-parcel": ".bin/create-rust-parcel.js"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-wasm.rs": "^1.2.16"
+  }
+}
