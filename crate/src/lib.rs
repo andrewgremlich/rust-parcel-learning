@@ -1,10 +1,13 @@
 #[macro_use]
 extern crate cfg_if;
 
+extern crate dom_interaction;
 extern crate wasm_bindgen;
 extern crate web_sys;
+
+use dom_interaction::Dom;
 use wasm_bindgen::prelude::*;
-use web_sys::{Document, Element, HtmlElement, Window};
+use web_sys::Element;
 
 mod functions;
 
@@ -37,16 +40,18 @@ pub fn run() -> Result<(), JsValue> {
     // it will do nothing.
     set_panic_hook();
 
-    // Manufacture the element we're gonna append
-    let val: Element = dom::create_text_element("p", "Hello from Rust, WebAssembly, and Parcel!!!");
+    let dom = Dom::new();
 
-    let prime_numbers_element: Element = dom::create_text_element(
+    // Manufacture the element we're gonna append
+    let val: Element = dom.create_text_element("p", "Hello from Rust, WebAssembly, and Parcel!!!");
+
+    let prime_numbers_element: Element = dom.create_text_element(
         "p",
         &format!("Prime numbers: {:?}", functions::prime_numbers(1000)),
     );
 
-    dom::append_to_body(&val);
-    dom::append_to_body(&prime_numbers_element);
+    dom.append_to_body(&val);
+    dom.append_to_body(&prime_numbers_element);
 
     Ok(())
 }

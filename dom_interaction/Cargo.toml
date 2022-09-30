@@ -1,5 +1,5 @@
 [package]
-name = "dom"
+name = "dom_interaction"
 version = "0.1.0"
 edition = "2021"
 
