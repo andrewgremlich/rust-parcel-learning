@@ -42,15 +42,16 @@ pub fn run() -> Result<(), JsValue> {
 
     let dom = Dom::new();
 
-    // Manufacture the element we're gonna append
-    let val: Element = dom.create_text_element("p", "Hello from Rust, WebAssembly, and Parcel!!!");
+    let greetings: Element = dom.create_text_element("p", "Hello from Rust, WebAssembly, and Parcel!!!");
+
+    dom.set_style(&greetings, "color: red;");
 
     let prime_numbers_element: Element = dom.create_text_element(
         "p",
         &format!("Prime numbers: {:?}", functions::prime_numbers(1000)),
     );
 
-    dom.append_to_body(&val);
+    dom.append_to_body(&greetings);
     dom.append_to_body(&prime_numbers_element);
 
     Ok(())
