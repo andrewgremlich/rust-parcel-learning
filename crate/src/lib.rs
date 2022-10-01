@@ -1,10 +1,4 @@
-#[macro_use]
-extern crate cfg_if;
-
-extern crate dom_interaction;
-extern crate wasm_bindgen;
-extern crate web_sys;
-
+use cfg_if::cfg_if;
 use dom_interaction::Dom;
 use wasm_bindgen::prelude::*;
 use web_sys::Element;
