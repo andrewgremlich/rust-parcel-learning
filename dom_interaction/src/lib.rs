@@ -1,20 +1,28 @@
 use wasm_bindgen::JsCast;
-use web_sys::{Document, Element, HtmlElement, Window};
+use web_sys::{Document, Element, HtmlElement};
 
 pub struct Dom {
     document: Document,
 }
 
 impl Dom {
-    pub fn new() -> Dom {
+    pub fn new() -> Self {
         let window = web_sys::window().expect("no global `window` exists");
         let document = window.document().expect("should have a document on window");
 
-        Dom { document }
+        Self { document }
     }
 
     pub fn set_attribute(&self, element: &Element, attr_name: &str, attr_value: &str) {
         element.set_attribute(attr_name, attr_value).unwrap();
+    }
+
+    pub fn set_id(&self, element: &Element, id: &str) {
+        self.set_attribute(element, "id", id);
+    }
+
+    pub fn set_class(&self, element: &Element, class: &str) {
+        self.set_attribute(element, "class", class);
     }
 
     pub fn set_css_text(&self, element: &Element, css_rule: &str) {
