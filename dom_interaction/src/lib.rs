@@ -46,4 +46,23 @@ impl Dom {
         body.append_child(element).unwrap();
         self
     }
+
+    pub fn append_all_to_body(&self, elements: &[Element]) -> &Dom {
+        for element in elements {
+            self.append_to_body(element);
+        }
+        self
+    }
+
+    pub fn append_to_element(&self, parent: &Element, child: &Element) -> &Dom {
+        parent.append_child(child).unwrap();
+        self
+    }
+
+    pub fn append_all_to_element(&self, parent: &Element, children: &[Element]) -> &Dom {
+        for child in children {
+            self.append_to_element(parent, child);
+        }
+        self
+    }
 }
