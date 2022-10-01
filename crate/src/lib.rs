@@ -1,9 +1,7 @@
 use cfg_if::cfg_if;
-use dom_interaction::Dom;
 use wasm_bindgen::prelude::*;
-use web_sys::Element;
 
-mod functions;
+mod components;
 
 cfg_if! {
     // When the `console_error_panic_hook` feature is enabled, we can call the
@@ -34,20 +32,7 @@ pub fn run() -> Result<(), JsValue> {
     // it will do nothing.
     set_panic_hook();
 
-    let dom = Dom::new();
-
-    let greetings: Element =
-        dom.create_text_element("p", "Hello from Rust, WebAssembly, and Parcel!!!");
-
-    dom.set_css_text(&greetings, "color: green;");
-
-    let prime_numbers_element: Element = dom.create_text_element(
-        "p",
-        &format!("Prime numbers: {:?}", functions::prime_numbers(1000)),
-    );
-
-    dom.append_to_body(&greetings);
-    dom.append_to_body(&prime_numbers_element);
+    components::main();
 
     Ok(())
 }
