@@ -42,9 +42,10 @@ pub fn run() -> Result<(), JsValue> {
 
     let dom = Dom::new();
 
-    let greetings: Element = dom.create_text_element("p", "Hello from Rust, WebAssembly, and Parcel!!!");
+    let greetings: Element =
+        dom.create_text_element("p", "Hello from Rust, WebAssembly, and Parcel!!!");
 
-    dom.set_style(&greetings, "color: red;");
+    dom.set_css_text(&greetings, "color: green;");
 
     let prime_numbers_element: Element = dom.create_text_element(
         "p",
