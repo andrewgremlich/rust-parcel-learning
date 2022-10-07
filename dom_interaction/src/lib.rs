@@ -13,6 +13,13 @@ impl Dom {
         Self { document }
     }
 
+    pub fn query_element(&self, selector: &str) -> Element {
+        self.document
+            .query_selector(selector)
+            .expect("should have a query selector")
+            .expect("should have an element")
+    }
+
     pub fn set_attribute(&self, element: &Element, attr_name: &str, attr_value: &str) {
         element.set_attribute(attr_name, attr_value).unwrap();
     }
