@@ -1,6 +1,6 @@
 use dom_interaction::Dom;
 use wasm_bindgen::{closure::Closure, JsCast};
-use web_sys::{Event, HtmlInputElement};
+use web_sys::{console, Event, HtmlInputElement};
 
 mod functions;
 
@@ -17,7 +17,7 @@ pub fn main(dom: &Dom) {
     let enter_button = dom.create_text_element("button", "Enter");
     let output = dom.create_text_element(
         "p",
-        &format!("Prime numbers: {:?}", functions::prime_numbers(1000)),
+        &format!("Prime numbers: {:?}", functions::prime_numbers(100)),
     );
 
     dom.set_attribute(&input_element, "type", "number");
@@ -25,9 +25,11 @@ pub fn main(dom: &Dom) {
     dom.set_attribute(&output, "id", "prime_numbers_output");
 
     let primer_number_button_click = Closure::wrap(Box::new(move |_event: Event| {
-        let newDomQuery = Dom::new();
-        let prime_input = newDomQuery.query_element("#prime_numberes_input");
-        let prime_output = newDomQuery.query_element("#prime_numbers_output");
+        console::log_1(&"Hello world!".into());
+
+        let new_dom_query = Dom::new();
+        let prime_input = new_dom_query.query_element("#prime_numbers_input");
+        let prime_output = new_dom_query.query_element("#prime_numbers_output");
 
         let input_value = prime_input.dyn_ref::<HtmlInputElement>().unwrap().value();
         let input_value_num = input_value.parse::<u32>().unwrap();
@@ -35,12 +37,16 @@ pub fn main(dom: &Dom) {
         prime_output.set_inner_html(&format!("Prime numbers: {:?}", prime_numbers));
     }) as Box<dyn FnMut(_)>);
 
-    enter_button
-        .add_event_listener_with_callback(
-            "click",
-            primer_number_button_click.as_ref().unchecked_ref(),
-        )
-        .unwrap();
+    match enter_button.add_event_listener_with_callback(
+        "click",
+        primer_number_button_click.as_ref().unchecked_ref(),
+    ) {
+        Ok(_) => {
+            primer_number_button_click.forget();
+            ()
+        }
+        Err(e) => console::log_1(&format!("Error: {:?}", e).into()),
+    };
 
     dom.append_all_to_element(
         &component_parent,

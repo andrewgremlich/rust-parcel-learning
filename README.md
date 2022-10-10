@@ -20,3 +20,7 @@ cargo install wasm-pack
 ```sh
 npm init rust-parcel my-app
 ```
+
+## Reference
+
+[wasm-bindgen book!](https://rustwasm.github.io/wasm-bindgen/introduction.html)
