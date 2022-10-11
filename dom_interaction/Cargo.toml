@@ -18,4 +18,5 @@ features = [
   'HtmlElement',
   'Node',
   'Window',
+  'Event',
 ]

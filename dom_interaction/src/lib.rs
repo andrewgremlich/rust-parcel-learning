@@ -1,5 +1,5 @@
 use wasm_bindgen::{closure::Closure, convert::FromWasmAbi, JsCast};
-use web_sys::{Document, Element, HtmlElement};
+use web_sys::{Document, Element, Event, HtmlElement};
 
 pub struct Dom {
     document: Document,
@@ -18,6 +18,19 @@ impl Dom {
         callback: F,
     ) -> Closure<dyn FnMut(T)> {
         Closure::wrap(Box::new(callback) as Box<dyn FnMut(_)>)
+    }
+
+    pub fn make_event(
+        &self,
+        elemenet: &Element,
+        event_type: &str,
+        listener: Closure<dyn FnMut(Event)>,
+    ) {
+        if let Ok(_) =
+            elemenet.add_event_listener_with_callback(event_type, listener.as_ref().unchecked_ref())
+        {
+            listener.forget();
+        }
     }
 
     pub fn get_ref<'a, T: JsCast>(&'a self, ele: &'a Element) -> &T {

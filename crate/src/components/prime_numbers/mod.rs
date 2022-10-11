@@ -33,17 +33,14 @@ pub fn main(dom: &Dom) {
         let input_value_num = input_value.parse::<u32>().unwrap();
 
         console::time_with_label("rust_prime_numbers");
-        let prime_numbers = functions::prime_numbers(input_value_num);
-        prime_output.set_inner_html(&format!("Prime numbers: {:?}", prime_numbers));
+        prime_output.set_inner_html(&format!(
+            "Prime numbers: {:?}",
+            functions::prime_numbers(input_value_num)
+        ));
         console::time_end_with_label("rust_prime_numbers");
     });
 
-    if let Ok(_) = enter_button.add_event_listener_with_callback(
-        "click",
-        primer_number_button_click.as_ref().unchecked_ref(),
-    ) {
-        primer_number_button_click.forget();
-    }
+    dom.make_event(&enter_button, "click", primer_number_button_click);
 
     dom.append_all_to_element(
         &component_parent,
