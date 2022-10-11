@@ -25,26 +25,25 @@ pub fn main(dom: &Dom) {
     dom.set_attribute(&output, "id", "prime_numbers_output");
 
     let primer_number_button_click = Closure::wrap(Box::new(move |_event: Event| {
-        console::log_1(&"Hello world!".into());
-
         let new_dom_query = Dom::new();
         let prime_input = new_dom_query.query_element("#prime_numbers_input");
         let prime_output = new_dom_query.query_element("#prime_numbers_output");
 
         let input_value = prime_input.dyn_ref::<HtmlInputElement>().unwrap().value();
         let input_value_num = input_value.parse::<u32>().unwrap();
+
+        console::time_with_label("rust_prime_numbers");
         let prime_numbers = functions::prime_numbers(input_value_num);
         prime_output.set_inner_html(&format!("Prime numbers: {:?}", prime_numbers));
+        console::time_end_with_label("rust_prime_numbers");
+
     }) as Box<dyn FnMut(_)>);
 
     match enter_button.add_event_listener_with_callback(
         "click",
         primer_number_button_click.as_ref().unchecked_ref(),
     ) {
-        Ok(_) => {
-            primer_number_button_click.forget();
-            ()
-        }
+        Ok(_) => primer_number_button_click.forget(),
         Err(e) => console::log_1(&format!("Error: {:?}", e).into()),
     };
 
