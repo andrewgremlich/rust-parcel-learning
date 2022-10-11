@@ -17,12 +17,11 @@ impl Dom {
         &self,
         callback: F,
     ) -> Closure<dyn FnMut(T)> {
-        return Closure::wrap(Box::new(callback) as Box<dyn FnMut(_)>);
+        Closure::wrap(Box::new(callback) as Box<dyn FnMut(_)>)
     }
 
     pub fn get_ref<'a, T: JsCast>(&'a self, ele: &'a Element) -> &T {
-        let reff = ele.dyn_ref::<T>().unwrap();
-        return reff;
+        ele.dyn_ref::<T>().unwrap()
     }
 
     pub fn query_element(&self, selector: &str) -> Element {
