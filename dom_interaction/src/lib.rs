@@ -1,4 +1,4 @@
-use wasm_bindgen::JsCast;
+use wasm_bindgen::{closure::Closure, JsCast};
 use web_sys::{Document, Element, HtmlElement};
 
 pub struct Dom {
@@ -13,6 +13,15 @@ impl Dom {
         Self { document }
     }
 
+    // pub fn make_event_listener<F>(&self, callback: F) -> Closure<dyn FnMut()> {
+    //     return Closure::wrap(Box::new(callback) as Box<dyn FnMut()>);
+    // }
+
+    pub fn get_ref<'a, T: JsCast>(&'a self, ele: &'a Element) -> &T {
+        let reff = ele.dyn_ref::<T>().unwrap();
+        return reff;
+    }
+
     pub fn query_element(&self, selector: &str) -> Element {
         self.document
             .query_selector(selector)
@@ -21,7 +30,9 @@ impl Dom {
     }
 
     pub fn set_attribute(&self, element: &Element, attr_name: &str, attr_value: &str) {
-        element.set_attribute(attr_name, attr_value).unwrap();
+        if let Ok(ele) = element.set_attribute(attr_name, attr_value) {
+            return ele;
+        }
     }
 
     pub fn set_id(&self, element: &Element, id: &str) {
@@ -33,8 +44,9 @@ impl Dom {
     }
 
     pub fn set_css_text(&self, element: &Element, css_rule: &str) {
-        let element = element.dyn_ref::<HtmlElement>().unwrap();
-        element.style().set_css_text(css_rule);
+        if let Some(ele) = element.dyn_ref::<HtmlElement>() {
+            ele.style().set_css_text(css_rule);
+        }
     }
 
     pub fn create_element(&self, tag: &str) -> Element {
