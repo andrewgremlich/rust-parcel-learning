@@ -1,5 +1,4 @@
 use dom_interaction::Dom;
-use wasm_bindgen::JsCast;
 use web_sys::{console, Event, HtmlInputElement};
 
 mod functions;
