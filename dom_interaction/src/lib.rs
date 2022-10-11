@@ -1,4 +1,4 @@
-use wasm_bindgen::{closure::Closure, JsCast};
+use wasm_bindgen::{closure::Closure, convert::FromWasmAbi, JsCast};
 use web_sys::{Document, Element, HtmlElement};
 
 pub struct Dom {
@@ -13,9 +13,12 @@ impl Dom {
         Self { document }
     }
 
-    // pub fn make_event_listener<F>(&self, callback: F) -> Closure<dyn FnMut()> {
-    //     return Closure::wrap(Box::new(callback) as Box<dyn FnMut()>);
-    // }
+    pub fn make_event_listener_closure<F: FnMut(T) -> () + 'static, T: FromWasmAbi + 'static>(
+        &self,
+        callback: F,
+    ) -> Closure<dyn FnMut(T)> {
+        return Closure::wrap(Box::new(callback) as Box<dyn FnMut(_)>);
+    }
 
     pub fn get_ref<'a, T: JsCast>(&'a self, ele: &'a Element) -> &T {
         let reff = ele.dyn_ref::<T>().unwrap();
