@@ -7,7 +7,7 @@ license = "MIT"
 description = "Simplify making web applications with Rust and WebAssembly."
 homepage = "https://github.com/andrewgremlich/rust-parcel-learning"
 repository = "https://github.com/andrewgremlich/rust-parcel-learning"
-keywords = ["web assembly", "dom", "application", "web", "wasm"]
+keywords = ["webassembly", "dom", "application", "web", "wasm"]
 categories = ["wasm", "web-programming"]
 readme = "./readme.md"
 
