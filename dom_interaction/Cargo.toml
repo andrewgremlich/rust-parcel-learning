@@ -2,8 +2,14 @@
 name = "dom_interaction"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+authors = ["Andrew Gremlich <andrew.gremlich@gmail.com>"]
+license = "MIT"
+description = "Simplify making web applications with Rust and WebAssembly."
+homepage = "https://github.com/andrewgremlich/rust-parcel-learning"
+repository = "https://github.com/andrewgremlich/rust-parcel-learning"
+keywords = ["web assembly", "dom", "application", "web", "wasm"]
+categories = ["wasm", "web-programming"]
+readme = "./readme.md"
 
 [dependencies]
 wasm-bindgen = "0.2.83"
