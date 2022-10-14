@@ -5,13 +5,16 @@ const primeNumbersInput: HTMLInputElement | null = document.getElementById(
 ) as HTMLInputElement;
 
 function isPrime(number) {
-  for (let i = 2, s = Math.sqrt(number); i <= s; i++)
+  let s = Math.sqrt(number);
+
+  for (let i = 2; i <= s; i++) {
     if (number % i === 0) return false;
+  }
+
   return number > 1;
 }
 
 runPrimeNumbers?.addEventListener("click", () => {
-  console.log('hello world');
   if (primeNumbersInput?.value) {
     console.time("Web app prime number calc");
 
