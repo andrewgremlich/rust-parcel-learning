@@ -10,10 +10,16 @@ impl Dom {
         let window = web_sys::window().expect("no global `window` exists");
         let document = window.document().expect("should have a document on window");
 
+        impl Default for Dom {
+            fn default() -> Self {
+                Self::new()
+            }
+        }
+
         Self { document }
     }
 
-    pub fn make_event_listener_closure<F: FnMut(T) -> () + 'static, T: FromWasmAbi + 'static>(
+    pub fn make_event_listener_closure<F: FnMut(T) + 'static, T: FromWasmAbi + 'static>(
         &self,
         callback: F,
     ) -> Closure<dyn FnMut(T)> {
@@ -26,8 +32,9 @@ impl Dom {
         event_type: &str,
         listener: Closure<dyn FnMut(Event)>,
     ) {
-        if let Ok(_) =
-            elemenet.add_event_listener_with_callback(event_type, listener.as_ref().unchecked_ref())
+        if elemenet
+            .add_event_listener_with_callback(event_type, listener.as_ref().unchecked_ref())
+            .is_ok()
         {
             listener.forget();
         }
@@ -45,9 +52,7 @@ impl Dom {
     }
 
     pub fn set_attribute(&self, element: &Element, attr_name: &str, attr_value: &str) {
-        if let Ok(ele) = element.set_attribute(attr_name, attr_value) {
-            return ele;
-        }
+        element.set_attribute(attr_name, attr_value).unwrap()
     }
 
     pub fn set_id(&self, element: &Element, id: &str) {
@@ -65,8 +70,7 @@ impl Dom {
     }
 
     pub fn create_element(&self, tag: &str) -> Element {
-        let created_element = self.document.create_element(tag).unwrap();
-        created_element
+        self.document.create_element(tag).unwrap()
     }
 
     pub fn create_text_element(&self, element_name: &str, text: &str) -> Element {
